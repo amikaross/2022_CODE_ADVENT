@@ -4,30 +4,14 @@ class Program
 
   def initialize(file)
     @file = file
-    @at_20 = 0
-    @at_60 = 0
-    @at_100 = 0
-    @at_140 = 0
-    @at_180 = 0
-    @at_220 = 0
+    @signals = []
     @row = 0
     @rendering = ""
   end
   
   def check_cycle_num(x, cycle)
-    if cycle == 20
-      @at_20 = x
-    elsif cycle == 60 
-      @at_60 = x
-    elsif cycle == 100
-      @at_100 = x
-    elsif cycle == 140 
-      @at_140 = x
-    elsif cycle == 180
-      @at_180 = x
-    elsif cycle == 220
-      @at_220 = x
-    end
+    important = [20, 60, 100, 140, 180, 220]
+    @signals << x if important.include?(cycle)
   end
 
   def run_program
@@ -65,12 +49,8 @@ class Program
   end
 
   def multiply_and_sum_strengths
-    (@at_20 * 20) +
-    (@at_60 * 60) +
-    (@at_100 * 100) +
-    (@at_140 * 140) +
-    (@at_180 * 180) +
-    (@at_220 * 220)
+    important = [20, 60, 100, 140, 180, 220]
+    @signals.zip(important).map { |signal| signal[0] * signal[1] }.sum
   end
 end
 
