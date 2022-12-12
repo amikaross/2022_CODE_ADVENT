@@ -37,11 +37,7 @@ class Program
 
   def draw_pixel(cycle, x)
     position = cycle - (@row * 40) - 1
-    if ((x - 1)..(x + 1)).include?(position)
-      @rendering << "#"
-    else 
-      @rendering << "."
-    end
+    ((x - 1)..(x + 1)).include?(position) ? @rendering << "#" : @rendering << "."
     if cycle % 40 == 0 
       @rendering << "\n" 
       @row += 1
@@ -54,17 +50,9 @@ class Program
   end
 end
 
-def part_one
-  p = Program.new("./puzzle_input/signal.txt")
-  p.run_program
-  p.multiply_and_sum_strengths
-end
 
-def part_two
-  p = Program.new("./puzzle_input/signal.txt")
-  p.run_program 
-  p.rendering
-end
-
-puts "Part one: #{part_one}"
-puts "Part two:\n#{part_two}"
+p = Program.new("./puzzle_input/signal.txt")
+p.run_program
+  
+puts "Part one: #{p.multiply_and_sum_strengths}"
+puts "Part two:\n#{p.rendering}"
