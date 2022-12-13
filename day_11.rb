@@ -9,8 +9,8 @@ class Monkey
     @operation = operation
   end
 
-  def inspect(item, decreaser)
-    item.worry_level = (perform_operation(item)) % decreaser
+  def inspect(item, decreaser, divisor)
+    item.worry_level = (perform_operation(item) / divisor) % decreaser
     if perform_test_on(item) == true
       @tests[1]
     else
@@ -62,13 +62,13 @@ class ShenaniganCounter
     end
   end  
 
-  def run_twenty_rounds
+  def run_twenty_rounds(divisor, rounds)
     initialize_monkeys
-    10000.times do 
+    rounds.times do 
       @monkeys.each do |_, monkey|
         if monkey.items_holding != []
           monkey.items_holding.each do |item|
-            name = monkey.inspect(item, @decreaser)
+            name = monkey.inspect(item, @decreaser, divisor)
             give_item_to(monkey, name, item)
           end
           monkey.items_holding = []
@@ -85,9 +85,20 @@ class ShenaniganCounter
   end
 end
 
-s = ShenaniganCounter.new("./puzzle_input/monkeys.txt")
-s.run_twenty_rounds
-holdings = s.monkeys.values.map { |monkey| monkey.items_inspected_count }.sort
-monkey_business = holdings[-1] * holdings[-2]
-require 'pry'; binding.pry
+def part_one
+  s = ShenaniganCounter.new("./puzzle_input/monkeys.txt")
+  s.run_twenty_rounds(3, 20)
+  holdings = s.monkeys.values.map { |monkey| monkey.items_inspected_count }.sort
+  holdings[-1] * holdings[-2]
+end
+
+def part_two
+  s = ShenaniganCounter.new("./puzzle_input/monkeys.txt")
+  s.run_twenty_rounds(1, 10000)
+  holdings = s.monkeys.values.map { |monkey| monkey.items_inspected_count }.sort
+  holdings[-1] * holdings[-2]
+end
+
+puts "Part one: #{part_one}"
+puts "Part two: #{part_two}"
 
