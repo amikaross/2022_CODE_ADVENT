@@ -6,7 +6,7 @@ class Comparer
   end
 
   def part_one
-    indicies = []
+    indices = []
     file = File.read(@file).split("\n\n")
     file = file.map { |comparison| comparison.split("\n") }
     file.each_with_index do |comparison, i|
@@ -42,14 +42,14 @@ class Comparer
 
   def combine(first, second)
     sorted = []
-    until first.empty? && second.empty? do 
+    while !first.empty? && !second.empty? do 
       if compare(first[0][:key], second[0][:key])
         sorted.push(first.shift)
       else
         sorted.push(second.shift)
       end
     end
-    sorted
+    sorted.concat(first).concat(second)
   end
 
   def compare(left, right)
