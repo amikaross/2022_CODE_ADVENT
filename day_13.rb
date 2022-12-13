@@ -42,7 +42,7 @@ class Comparer
 
   def combine(first, second)
     sorted = []
-    while !first.empty? && !second.empty? do 
+    until first.empty? || second.empty? do 
       if compare(first[0][:key], second[0][:key])
         sorted.push(first.shift)
       else
@@ -76,7 +76,7 @@ class Comparer
   end
 end
 
-c = Comparer.new("./puzzle_input/arrays.txt")
+c = Comparer.new("./puzzle_input/very_small.txt")
 
 puts "Part one: #{c.part_one}"
 puts "Part two: #{c.part_two}"
