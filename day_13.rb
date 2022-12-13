@@ -3,19 +3,19 @@ require "json"
 class Comparer
   def initialize(file)
     @file = file
-    @indices = []
   end
 
   def part_one
+    indicies = []
     file = File.read(@file).split("\n\n")
     file = file.map { |comparison| comparison.split("\n") }
     file.each_with_index do |comparison, i|
       left = JSON.parse(comparison[0].gsub(/([0-9+].to_i)/, '"\1"'))
       right = JSON.parse(comparison[1].gsub(/([0-9+].to_i)/, '"\1"'))
     
-      compare(left, right) ? @indices << i + 1 : next
+      compare(left, right) ? indices << i + 1 : next
     end
-    @indices.sum
+    indices.sum
   end
 
   def part_two
@@ -33,7 +33,7 @@ class Comparer
     if unsorted.length <= 1
       return unsorted
     else
-      midpoint = (unsorted.length / 2).round
+      midpoint = (unsorted.length / 2)
       first = merge_sort(unsorted.take(midpoint))
       second = merge_sort(unsorted.drop(midpoint))
       combine(first, second)
@@ -42,14 +42,14 @@ class Comparer
 
   def combine(first, second)
     sorted = []
-    while !first.empty? && !second.empty? do 
+    until first.empty? && second.empty? do 
       if compare(first[0][:key], second[0][:key])
         sorted.push(first.shift)
       else
         sorted.push(second.shift)
       end
     end
-    sorted.concat(first).concat(second)
+    sorted
   end
 
   def compare(left, right)
